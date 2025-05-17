@@ -11,20 +11,20 @@ private val Context.dataStore by preferencesDataStore(name = "primitives_store")
 
 class LocalPrimitiveStore(
     private val context: Context
-) {
+) : PrimitiveStore {
 
     /**
      * Bearer токен с сатйта https://mco.nalog.ru
      * */
     private val privateToken = stringPreferencesKey("private_token_key")
 
-    fun getPrivateToken(): Flow<String?> {
+    override fun getPrivateToken(): Flow<String?> {
         return context.dataStore.data.map { preferences ->
             preferences[privateToken]
         }
     }
 
-    suspend fun setPrivateToken(token: String) {
+    override suspend fun setPrivateToken(token: String) {
         context.dataStore.edit { preferences ->
             preferences[privateToken] = token
         }
