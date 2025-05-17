@@ -2,23 +2,15 @@ package ru.dmitryskor.receipt_ofd_android.ui.navigation
 
 import android.content.Context
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.DelicateDecomposeApi
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.pop
-import com.arkivanov.decompose.router.stack.push
-import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
 import kotlinx.serialization.Serializable
-import ru.dmitryskor.receipt_ofd_android.ScanInfo
-import ru.dmitryskor.receipt_ofd_android.ui.navigation.screens.QrResultComponent
-import ru.dmitryskor.receipt_ofd_android.ui.navigation.screens.QrScannerComponent
-import ru.dmitryskor.receipt_ofd_android.ui.navigation.screens.QrSendDataComponent
-import ru.dmitryskor.receipt_ofd_android.ui.navigation.screens.QrSendResultComponent
+import ru.dmitryskor.receipt_ofd_android.ui.navigation.auth.AuthRootComponent
+import ru.dmitryskor.receipt_ofd_android.ui.navigation.noauth.NoAuthRootComponent
 
 class RootComponent(
-    componentContext: ComponentContext,
-    private val applicationContext: Context
+    componentContext: ComponentContext
 ) : ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
@@ -26,52 +18,24 @@ class RootComponent(
     val childStack: Value<com.arkivanov.decompose.router.stack.ChildStack<Config, Child>> = childStack(
         source = navigation,
         serializer = null,
-        initialConfiguration = Config.QrScanner,
-        handleBackButton = true,
+        initialConfiguration = Config.NoAuth,
+        handleBackButton = false,
         childFactory = ::createChild
     )
 
-    @OptIn(DelicateDecomposeApi::class)
     private fun createChild(config: Config, componentContext: ComponentContext): Child {
         return when (config) {
-            is Config.QrScanner -> Child.QrScanner(
-                QrScannerComponent(
-                    componentContext = componentContext,
-                    onQrScanned = { result ->
-                        navigation.push(Config.QrResult(result))
-                    }
-                )
-            )
-            is Config.QrResult -> Child.QrResult(
-                QrResultComponent(
-                    componentContext = componentContext,
-                    result = config.result,
-                    token = applicationContext.getToken(),
-                    onBack = { navigation.pop() },
-                    onSend = { data, token ->
-                        navigation.push(Config.QrSendData(data, token))
-                        applicationContext.setToken(token)
-                    }
+            is Config.NoAuth -> Child.NoAuth(
+                component = NoAuthRootComponent(
+                    componentContext = componentContext
                 )
             )
 
-            is Config.QrSendData -> Child.QrSendData(
-                QrSendDataComponent(
+            is Config.Auth -> Child.Auth(
+                component = AuthRootComponent(
                     componentContext = componentContext,
-                    data = config.data,
-                    token = config.token,
-                    onShowResult = {
-                        navigation.push(Config.QrSendResult(it))
-                    }
-                )
-            )
-
-            is Config.QrSendResult -> Child.QrSendResult(
-                QrSendResultComponent(
-                    componentContext = componentContext,
-                    response = config.response,
-                    onClearStack = {
-                        navigation.replaceAll(Config.QrScanner)
+                    onLogout = {
+                        // TODO
                     }
                 )
             )
@@ -79,25 +43,17 @@ class RootComponent(
     }
 
     sealed class Child {
-        data class QrScanner(val component: QrScannerComponent) : Child()
-        data class QrResult(val component: QrResultComponent) : Child()
-        data class QrSendData(val component: QrSendDataComponent) : Child()
-        data class QrSendResult(val component: QrSendResultComponent) : Child()
+        data class NoAuth(val component: NoAuthRootComponent) : Child()
+        data class Auth(val component: AuthRootComponent) : Child()
     }
 
     @Serializable
     sealed class Config {
         @Serializable
-        data object QrScanner : Config()
+        data object NoAuth : Config()
 
         @Serializable
-        data class QrResult(val result: String) : Config()
-
-        @Serializable
-        data class QrSendData(val data: ScanInfo, val token: String) : Config()
-
-        @Serializable
-        data class QrSendResult(val response: String) : Config()
+        data class Auth(val token: String) : Config()
     }
 }
 

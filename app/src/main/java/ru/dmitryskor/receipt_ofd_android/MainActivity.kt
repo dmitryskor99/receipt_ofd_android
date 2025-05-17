@@ -25,8 +25,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             rootComponent = RootComponent(
-                componentContext = defaultComponentContext(),
-                applicationContext = applicationContext
+                componentContext = defaultComponentContext()
             )
 
             setContent {
