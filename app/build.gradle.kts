@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -41,6 +43,10 @@ dependencies {
 
     implementation(libs.decompose)
     implementation(libs.decompose.extensions)
+
+    // hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 
     // data store
     implementation("androidx.datastore:datastore-preferences:1.1.6")
