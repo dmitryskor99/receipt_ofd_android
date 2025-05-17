@@ -42,6 +42,9 @@ dependencies {
     implementation(libs.decompose)
     implementation(libs.decompose.extensions)
 
+    // data store
+    implementation("androidx.datastore:datastore-preferences:1.1.6")
+
     // CameraX
     implementation("androidx.camera:camera-core:1.3.3")
     implementation("androidx.camera:camera-camera2:1.3.3")
