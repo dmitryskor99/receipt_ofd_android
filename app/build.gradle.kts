@@ -3,8 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
-    id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -41,36 +40,37 @@ android {
 
 dependencies {
 
+    // decompose
     implementation(libs.decompose)
     implementation(libs.decompose.extensions)
 
-    // hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+    // dagger
+    implementation(libs.dagger)
+    ksp(libs.dagger.compiler)
 
     // data store
-    implementation("androidx.datastore:datastore-preferences:1.1.6")
+    implementation(libs.androidx.datastore.preferences)
 
     // CameraX
-    implementation("androidx.camera:camera-core:1.3.3")
-    implementation("androidx.camera:camera-camera2:1.3.3")
-    implementation("androidx.camera:camera-lifecycle:1.3.3")
-    implementation("androidx.camera:camera-view:1.3.3")
-    implementation("androidx.camera:camera-extensions:1.3.3")
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.camera.extensions)
 
     // ML Kit for QR scanning
-    implementation("com.google.mlkit:barcode-scanning:17.2.0")
+    implementation(libs.barcode.scanning)
 
     // Ktor Client
-    implementation("io.ktor:ktor-client-core:2.3.8")
-    implementation("io.ktor:ktor-client-okhttp:2.3.8") // или ktor-client-cio
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.okhttp)
 
     // JSON сериализация
-    implementation("io.ktor:ktor-client-content-negotiation:2.3.8")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.8")
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
 
     // (опционально) логгирование запросов
-    implementation("io.ktor:ktor-client-logging:2.3.8")
+    implementation(libs.ktor.client.logging)
 
 
     implementation(libs.kotlinx.serialization.core)
