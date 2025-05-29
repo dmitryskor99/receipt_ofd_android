@@ -1,4 +1,4 @@
-package ru.dmitryskor.receipt_ofd_android
+package ru.dmitryskor.receipt_ofd_android.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
