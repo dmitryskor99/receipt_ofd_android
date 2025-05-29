@@ -1,7 +1,13 @@
 package ru.dmitryskor.receipt_ofd_android.ui.login.token
 
-interface LoginWithTokenComponent {
-    fun interface Factory {
-        operator fun invoke(): LoginWithTokenComponent
-    }
+import com.arkivanov.decompose.ComponentContext
+import dagger.assisted.AssistedFactory
+
+interface LoginWithTokenComponent
+
+@AssistedFactory
+interface LoginWithTokenComponentFactory {
+    operator fun invoke(
+        componentContext: ComponentContext,
+    ): DefaultLoginWithTokenComponent
 }
