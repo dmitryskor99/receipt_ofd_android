@@ -1,16 +1,14 @@
 package ru.dmitryskor.receipt_ofd_android.store
 
-import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-private val Context.dataStore by preferencesDataStore(name = "primitives_store")
-
 class LocalPrimitiveStore(
-    private val context: Context
+    private val dataStore: DataStore<Preferences>
 ) : PrimitiveStore {
 
     /**
@@ -19,13 +17,13 @@ class LocalPrimitiveStore(
     private val privateToken = stringPreferencesKey("private_token_key")
 
     override fun getPrivateToken(): Flow<String?> {
-        return context.dataStore.data.map { preferences ->
+        return dataStore.data.map { preferences ->
             preferences[privateToken]
         }
     }
 
     override suspend fun setPrivateToken(token: String) {
-        context.dataStore.edit { preferences ->
+        dataStore.edit { preferences ->
             preferences[privateToken] = token
         }
     }

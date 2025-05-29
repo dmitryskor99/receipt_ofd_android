@@ -11,34 +11,25 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.arkivanov.decompose.defaultComponentContext
-import ru.dmitryskor.receipt_ofd_android.ui.navigation.RootComponent
-import ru.dmitryskor.receipt_ofd_android.ui.navigation.RootContent
 import ru.dmitryskor.receipt_ofd_android.ui.theme.Receipt_ofd_androidTheme
 
 class MainActivity : ComponentActivity() {
-
-    private lateinit var rootComponent: RootComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            rootComponent = RootComponent(
-                componentContext = defaultComponentContext()
-            )
-
-            setContent {
-                RootContent(rootComponent)
-            }
-//            Receipt_ofd_androidTheme {
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    Greeting(
-//                        name = "Android",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
-//                }
+//            setContent {
+//                RootContent(rootComponent)
 //            }
+            Receipt_ofd_androidTheme {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    Greeting(
+                        name = "Android",
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
+            }
         }
     }
 }
