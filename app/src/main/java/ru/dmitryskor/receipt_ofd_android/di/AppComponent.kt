@@ -10,4 +10,6 @@ import ru.dmitryskor.receipt_ofd_android.di.scopes.AppScope
         AppModule::class
     ]
 )
-interface AppComponent
+interface AppComponent {
+    fun sessionComponent(): SessionComponent.Factory
+}
