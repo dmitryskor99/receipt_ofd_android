@@ -11,8 +11,8 @@ class SessionManager @Inject constructor(
 
     private var sessionComponent: SessionComponent? = null
 
-    fun startSession() {
-        sessionComponent = sessionComponentFactory.create()
+    fun startSession(userId: String) {
+        sessionComponent = sessionComponentFactory.create(userId = userId)
     }
 
     fun stopSession() {
