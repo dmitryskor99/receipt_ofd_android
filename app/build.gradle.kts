@@ -39,6 +39,26 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.di)
+    implementation(projects.feature.navigation.api)
+    implementation(projects.feature.navigation.impl)
+    implementation(projects.feature.login.api)
+    implementation(projects.feature.login.impl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // decompose
     implementation(libs.decompose)
@@ -60,17 +80,6 @@ dependencies {
 
     // ML Kit for QR scanning
     implementation(libs.barcode.scanning)
-
-    // Ktor Client
-    implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.okhttp)
-
-    // JSON сериализация
-    implementation(libs.ktor.client.content.negotiation)
-    implementation(libs.ktor.serialization.kotlinx.json)
-
-    // (опционально) логгирование запросов
-    implementation(libs.ktor.client.logging)
 
 
     implementation(libs.kotlinx.serialization.core)

@@ -1,19 +1,16 @@
 package ru.dmitryskor.receipt_ofd_android.di
 
 import dagger.Component
-import ru.dmitryskor.receipt_ofd_android.di.modules.AppModule
-import ru.dmitryskor.receipt_ofd_android.di.scopes.AppScope
-import ru.dmitryskor.receipt_ofd_android.ui.root.RootComponentFactory
+import ru.dmitryskor.di.scopes.AppScope
+import ru.dmitryskor.impl.RootComponentFactory
 
 @AppScope
 @Component(
     modules = [
-        AppModule::class
+        AppModule::class,
     ]
 )
 interface AppComponent {
 
     val rootComponentFactory: RootComponentFactory
-
-    fun sessionComponent(): SessionComponent.Factory
 }

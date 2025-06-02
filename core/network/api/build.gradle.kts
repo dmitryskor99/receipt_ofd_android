@@ -31,8 +31,14 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.core.ktx)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    // Ktor Client
+    api(libs.ktor.client.core)
+    api(libs.ktor.client.okhttp)
+
+    // JSON сериализация
+    api(libs.ktor.client.content.negotiation)
+    api(libs.ktor.serialization.kotlinx.json)
+
+    // (опционально) логгирование запросов
+    api(libs.ktor.client.logging)
 }

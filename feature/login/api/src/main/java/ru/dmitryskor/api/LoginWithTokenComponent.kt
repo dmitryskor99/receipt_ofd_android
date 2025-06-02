@@ -1,0 +1,3 @@
+package ru.dmitryskor.api
+
+interface LoginWithTokenComponent
