@@ -35,8 +35,8 @@ android {
 }
 
 dependencies {
-    implementation(libs.dagger)
-    ksp(libs.dagger.compiler)
+//    implementation(libs.dagger)
+//    ksp(libs.dagger.compiler)
     implementation(libs.decompose)
     implementation(libs.decompose.extensions)
     implementation(libs.androidx.activity.compose)

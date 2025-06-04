@@ -19,6 +19,8 @@ dependencyResolutionManagement {
     }
 }
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 rootProject.name = "receipt_ofd_android"
 include(":app")
 include(":feature")
@@ -36,8 +38,6 @@ include(":core:network:api")
 include(":core:network:impl")
 include(":core:network:test")
 include(":core:di")
-
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":feature:navigation")
 include(":feature:navigation:api")
 include(":feature:navigation:impl")
