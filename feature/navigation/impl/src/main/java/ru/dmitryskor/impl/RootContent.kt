@@ -19,6 +19,7 @@ fun RootContent(component: RootComponent, modifier: Modifier = Modifier) {
     ) {
         when (val child = it.instance) {
             is RootComponent.Child.LoginWithToken -> LoginWithTokenContent(component = child.component, modifier = Modifier.fillMaxWidth())
+            is RootComponent.Child.Scanner -> ScannerContent(component = child.component, modifier = Modifier.fillMaxWidth())
         }
     }
 }

@@ -34,4 +34,5 @@ dependencies {
     implementation(libs.decompose.extensions)
 
     implementation(projects.feature.login.api)
+    implementation(projects.feature.scanner.api)
 }

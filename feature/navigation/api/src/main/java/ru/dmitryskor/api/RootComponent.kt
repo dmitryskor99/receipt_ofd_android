@@ -9,5 +9,6 @@ interface RootComponent {
 
     sealed class Child {
         class LoginWithToken(val component: LoginWithTokenComponent) : Child()
+        class Scanner(val component: ScannerComponent) : Child()
     }
 }

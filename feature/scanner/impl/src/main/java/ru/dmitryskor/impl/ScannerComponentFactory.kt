@@ -4,9 +4,9 @@ import com.arkivanov.decompose.ComponentContext
 import dagger.assisted.AssistedFactory
 
 @AssistedFactory
-interface LoginWithTokenComponentFactory {
+interface ScannerComponentFactory {
     operator fun invoke(
         componentContext: ComponentContext,
-        onLogin: (String) -> Unit
-    ): DefaultLoginWithTokenComponent
+        userToken: String
+    ): DefaultScannerComponent
 }
