@@ -8,6 +8,7 @@ interface RootComponent {
     val stack: Value<ChildStack<*, Child>>
 
     sealed class Child {
+        class Start(val component: StartComponent) : Child()
         class LoginWithToken(val component: LoginWithTokenComponent) : Child()
         class Scanner(val component: ScannerComponent) : Child()
     }

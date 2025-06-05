@@ -49,4 +49,6 @@ dependencies {
     implementation(projects.feature.login.impl)
     implementation(projects.feature.scanner.api)
     implementation(projects.feature.scanner.impl)
+    implementation(projects.feature.start.api)
+    implementation(projects.feature.start.impl)
 }

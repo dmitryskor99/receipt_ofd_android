@@ -12,10 +12,12 @@ import kotlinx.serialization.Serializable
 import ru.dmitryskor.api.LoginWithTokenComponent
 import ru.dmitryskor.api.RootComponent
 import ru.dmitryskor.api.ScannerComponent
+import ru.dmitryskor.api.StartComponent
 
 class DefaultRootComponent @AssistedInject constructor(
     private val loginWithTokenFactory: LoginWithTokenComponentFactory,
     private val scannerFactory: ScannerComponentFactory,
+    private val startFactory: StartComponentFactory,
     @Assisted componentContext: ComponentContext
 ) : RootComponent, ComponentContext by componentContext {
 
@@ -23,7 +25,7 @@ class DefaultRootComponent @AssistedInject constructor(
     override val stack: Value<ChildStack<*, RootComponent.Child>> =
         childStack(
             source = nav,
-            initialConfiguration = Config.LoginWithToken,
+            initialConfiguration = Config.Start,
             serializer = Config.serializer(),
             handleBackButton = true,
             childFactory = ::child,
@@ -31,6 +33,7 @@ class DefaultRootComponent @AssistedInject constructor(
 
     private fun child(config: Config, context: ComponentContext): RootComponent.Child {
         return when (config) {
+            is Config.Start -> RootComponent.Child.Start(startComponent(context))
             is Config.LoginWithToken -> RootComponent.Child.LoginWithToken(loginWithTokenComponent(context))
             is Config.Scanner -> RootComponent.Child.Scanner(scannerComponent(context, config.userToken))
         }
@@ -52,8 +55,15 @@ class DefaultRootComponent @AssistedInject constructor(
         )
     }
 
+    private fun startComponent(context: ComponentContext): StartComponent {
+        return startFactory(componentContext = context)
+    }
+
     @Serializable
     private sealed interface Config {
+        @Serializable
+        data object Start : Config
+
         @Serializable
         data object LoginWithToken : Config
 
