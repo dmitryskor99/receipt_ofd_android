@@ -44,6 +44,8 @@ dependencies {
     implementation(projects.feature.navigation.impl)
     implementation(projects.feature.login.api)
     implementation(projects.feature.login.impl)
+    implementation(projects.feature.scanner.api)
+    implementation(projects.feature.scanner.impl)
 
 
 

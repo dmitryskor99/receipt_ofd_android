@@ -4,6 +4,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -39,7 +40,7 @@ class DefaultRootComponent @AssistedInject constructor(
         return loginWithTokenFactory(
             componentContext = context,
             onLogin = {
-
+                nav.push(Config.Scanner(it))
             }
         )
     }
