@@ -1,11 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "ru.dmitryskor.api"
+    namespace = "ru.dmitryskor.impl"
     compileSdk = 35
 
     defaultConfig {
@@ -27,8 +26,5 @@ android {
 }
 
 dependencies {
-    implementation(libs.decompose)
-    implementation(libs.decompose.extensions)
-    implementation(libs.dagger)
-    ksp(libs.dagger.compiler)
+
 }
