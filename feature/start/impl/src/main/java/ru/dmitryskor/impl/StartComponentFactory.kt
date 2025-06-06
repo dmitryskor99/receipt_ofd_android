@@ -6,6 +6,7 @@ import dagger.assisted.AssistedFactory
 @AssistedFactory
 interface StartComponentFactory {
     operator fun invoke(
-        componentContext: ComponentContext
+        componentContext: ComponentContext,
+        onLogin: () -> Unit,
     ): DefaultStartComponent
 }

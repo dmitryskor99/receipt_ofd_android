@@ -5,6 +5,7 @@ cameraCore = "1.4.2"
 dagger = "2.56.2"
 datastorePreferences = "1.1.7"
 decompose = "3.3.0"
+decompose-coroutines = "2.5.0"
 kotlin = "2.1.20"
 ksp = "2.1.20-2.0.1"
 coreKtx = "1.16.0"
@@ -32,6 +33,7 @@ dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 decompose = { group = "com.arkivanov.decompose", name ="decompose", version.ref = "decompose" }
 decompose-extensions = { group = "com.arkivanov.decompose", name = "extensions-compose-experimental", version.ref = "decompose" }
+decompose-coroutines = { group = "com.arkivanov.essenty", name = "lifecycle-coroutines", version.ref = "decompose-coroutines" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

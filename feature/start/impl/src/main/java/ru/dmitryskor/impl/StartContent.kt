@@ -1,9 +1,13 @@
 package ru.dmitryskor.impl
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import ru.dmitryskor.api.StartComponent
@@ -31,5 +35,16 @@ private fun Content(
     modifier: Modifier = Modifier,
     state: StartState
 ) {
-    Text("wefkwefl")
+    Box(
+        modifier = modifier.fillMaxSize()
+    ) {
+        if (state.isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .align(Alignment.Center)
+            )
+        } else {
+            Text("wefkwefl")
+        }
+    }
 }
