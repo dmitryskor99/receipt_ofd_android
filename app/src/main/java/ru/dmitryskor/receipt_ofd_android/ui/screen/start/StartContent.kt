@@ -47,11 +47,17 @@ private fun Content(
     ) {
         when (state) {
             StartState.Loading -> CircularProgressIndicator()
-            StartState.ServerNotAvailable -> Column(
+            is StartState.UnknownError,
+            is StartState.ServerNotAvailable -> Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Сервер недоступен")
+                val textError = when (state) {
+                    is StartState.UnknownError -> "Неизвестная ошибка: ${state.error}"
+                    is StartState.ServerNotAvailable -> "Сервер недоступен: ${state.error}"
+                    StartState.Loading -> "Загрузка"
+                }
+                Text(textError)
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     onClick = onReloadCheckServer

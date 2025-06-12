@@ -23,29 +23,6 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/buildSrc" />
-            <option value="$PROJECT_DIR$/core" />
-            <option value="$PROJECT_DIR$/core/di" />
-            <option value="$PROJECT_DIR$/core/network" />
-            <option value="$PROJECT_DIR$/core/network/api" />
-            <option value="$PROJECT_DIR$/core/network/impl" />
-            <option value="$PROJECT_DIR$/core/network/test" />
-            <option value="$PROJECT_DIR$/feature" />
-            <option value="$PROJECT_DIR$/feature/login" />
-            <option value="$PROJECT_DIR$/feature/login/api" />
-            <option value="$PROJECT_DIR$/feature/login/impl" />
-            <option value="$PROJECT_DIR$/feature/login/test" />
-            <option value="$PROJECT_DIR$/feature/navigation" />
-            <option value="$PROJECT_DIR$/feature/navigation/api" />
-            <option value="$PROJECT_DIR$/feature/navigation/impl" />
-            <option value="$PROJECT_DIR$/feature/navigation/test" />
-            <option value="$PROJECT_DIR$/feature/scanner" />
-            <option value="$PROJECT_DIR$/feature/scanner/api" />
-            <option value="$PROJECT_DIR$/feature/scanner/impl" />
-            <option value="$PROJECT_DIR$/feature/scanner/test" />
-            <option value="$PROJECT_DIR$/feature/start" />
-            <option value="$PROJECT_DIR$/feature/start/api" />
-            <option value="$PROJECT_DIR$/feature/start/impl" />
-            <option value="$PROJECT_DIR$/feature/start/test" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -18,7 +18,7 @@ class NetworkModule {
     @BaseUrl
     @Provides
     fun provideBaseUrl(): String {
-        return ""
+        return "http://176.108.252.60:8000/33c9d911-5f53-4e5a-8914-870615a4f10c"
     }
 
     @AppScope

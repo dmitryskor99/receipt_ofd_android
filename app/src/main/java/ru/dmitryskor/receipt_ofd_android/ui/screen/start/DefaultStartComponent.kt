@@ -3,22 +3,33 @@ package ru.dmitryskor.receipt_ofd_android.ui.screen.start
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.decompose.value.update
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.dmitryskor.receipt_ofd_android.domain.CheckAvailableServerUC
+import ru.dmitryskor.receipt_ofd_android.domain.models.exception.ServerNotAvailable
 
 class DefaultStartComponent @AssistedInject constructor(
-//    private val serverNetworkClient: ServerNetworkClient,
+    private val checkAvailableServer: CheckAvailableServerUC,
     @Assisted componentContext: ComponentContext,
     @Assisted private val onLogin: () -> Unit,
 ) : StartComponent, ComponentContext by componentContext {
     private val _state: MutableValue<StartState> = MutableValue(StartState.Loading)
-    private val scope = coroutineScope()
+    private val scope = coroutineScope(
+        CoroutineName("DefaultStartComponent") + CoroutineExceptionHandler { _, t ->
+            when (t) {
+                is ServerNotAvailable -> _state.update { StartState.ServerNotAvailable(error = t.message.orEmpty()) }
+                else -> _state.update { StartState.UnknownError(error = t.message.orEmpty()) }
+            }
+        }
+    )
 
     override val state: Value<StartState> = _state
 
@@ -43,9 +54,11 @@ class DefaultStartComponent @AssistedInject constructor(
             val authAvailable = authAvailableDeffered.await()
 
             when {
-                serverAvailable && authAvailable -> toLogin()
-                serverAvailable -> {}
-                authAvailable -> {}
+                serverAvailable && authAvailable -> toApp()
+                serverAvailable -> toLogin()
+                else -> {
+                    // Noop: Сервер недоступен, но мы авторизованы. Просто ждём, пока юзер сервер будет доступен
+                }
             }
         }
     }
@@ -58,16 +71,9 @@ class DefaultStartComponent @AssistedInject constructor(
         TODO("Not yet implemented")
     }
 
-    private suspend fun checkServer(): Boolean {
-//        return serverNetworkClient.pingPong().onFailure {
-//            it
-//            _state.update { StartState.ServerNotAvailable }
-//        }.isSuccess
-        TODO()
-    }
+    private suspend fun checkServer(): Boolean = checkAvailableServer()
 
     private suspend fun checkAuth(): Boolean {
-        delay(100L)
         return true
     }
 }
