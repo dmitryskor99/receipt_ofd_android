@@ -2,8 +2,8 @@ package ru.dmitryskor.receipt_ofd_android
 
 import android.app.Application
 import ru.dmitryskor.receipt_ofd_android.di.AppComponent
-import ru.dmitryskor.receipt_ofd_android.di.AppModule
 import ru.dmitryskor.receipt_ofd_android.di.DaggerAppComponent
+import ru.dmitryskor.receipt_ofd_android.di.modules.AppModule
 
 class ReceiptOFDApp : Application() {
 

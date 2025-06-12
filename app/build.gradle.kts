@@ -35,38 +35,28 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
 dependencies {
-    implementation(projects.core.di)
-    implementation(projects.feature.navigation.api)
-    implementation(projects.feature.navigation.impl)
-    implementation(projects.feature.login.api)
-    implementation(projects.feature.login.impl)
-    implementation(projects.feature.scanner.api)
-    implementation(projects.feature.scanner.impl)
-    implementation(projects.feature.start.api)
-    implementation(projects.feature.start.impl)
 
 
+    // Ktor Client
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.okhttp)
 
+    // JSON сериализация
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
 
-
-
-
-
-
-
-
-
-
-
-
+    // (опционально) логгирование запросов
+    implementation(libs.ktor.client.logging)
 
     // decompose
     implementation(libs.decompose)
     implementation(libs.decompose.extensions)
+    implementation(libs.decompose.coroutines)
 
     // dagger
     implementation(libs.dagger)
