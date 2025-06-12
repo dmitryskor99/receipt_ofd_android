@@ -5,6 +5,7 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pushNew
+import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -37,7 +38,7 @@ class DefaultRootComponent @AssistedInject constructor(
         return when (config) {
             is Config.Start -> RootComponent.Child.Start(startComponent(context))
             is Config.LoginWithToken -> RootComponent.Child.LoginWithToken(loginWithTokenComponent(context))
-            is Config.Scanner -> RootComponent.Child.Scanner(scannerComponent(context, config.userToken))
+            is Config.Scanner -> RootComponent.Child.Scanner(scannerComponent(context))
         }
     }
 
@@ -45,23 +46,23 @@ class DefaultRootComponent @AssistedInject constructor(
         return loginWithTokenFactory(
             componentContext = context,
             onLogin = {
-                nav.pushNew(Config.Scanner(it))
+                nav.pushNew(Config.Scanner)
             }
         )
     }
 
-    private fun scannerComponent(context: ComponentContext, userToken: String): ScannerComponent {
-        return scannerFactory(
-            componentContext = context,
-            userToken = userToken
-        )
+    private fun scannerComponent(context: ComponentContext): ScannerComponent {
+        return scannerFactory(componentContext = context)
     }
 
     private fun startComponent(context: ComponentContext): StartComponent {
         return startFactory(
             componentContext = context,
             onLogin = {
-                nav.pushNew(Config.LoginWithToken)
+                nav.replaceAll(Config.LoginWithToken)
+            },
+            onApp = {
+                nav.replaceAll(Config.Scanner)
             }
         )
     }
@@ -75,6 +76,6 @@ class DefaultRootComponent @AssistedInject constructor(
         data object LoginWithToken : Config
 
         @Serializable
-        data class Scanner(val userToken: String) : Config
+        data object Scanner : Config
     }
 }

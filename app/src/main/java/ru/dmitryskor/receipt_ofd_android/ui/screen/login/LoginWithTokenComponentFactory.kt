@@ -7,6 +7,6 @@ import dagger.assisted.AssistedFactory
 interface LoginWithTokenComponentFactory {
     operator fun invoke(
         componentContext: ComponentContext,
-        onLogin: (String) -> Unit
+        onLogin: () -> Unit
     ): DefaultLoginWithTokenComponent
 }

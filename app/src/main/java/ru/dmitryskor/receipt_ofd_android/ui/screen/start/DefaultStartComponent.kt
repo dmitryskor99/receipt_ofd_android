@@ -14,14 +14,15 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.dmitryskor.receipt_ofd_android.domain.CheckAvailableServerUC
-import ru.dmitryskor.receipt_ofd_android.domain.CheckLoginUC
+import ru.dmitryskor.receipt_ofd_android.domain.GetTokenUC
 import ru.dmitryskor.receipt_ofd_android.domain.models.exception.ServerNotAvailable
 
 class DefaultStartComponent @AssistedInject constructor(
     private val checkAvailableServer: CheckAvailableServerUC,
-    private val checkLogin: CheckLoginUC,
+    private val checkLogin: GetTokenUC,
     @Assisted componentContext: ComponentContext,
     @Assisted private val onLogin: () -> Unit,
+    @Assisted private val onApp: (String) -> Unit,
 ) : StartComponent, ComponentContext by componentContext {
     private val _state: MutableValue<StartState> = MutableValue(StartState.Loading)
     private val scope = coroutineScope(
@@ -45,19 +46,18 @@ class DefaultStartComponent @AssistedInject constructor(
 
     private fun initStartFlow() {
         scope.launch(Dispatchers.Default) {
-//            val serverAvailableDeffered = scope.async(Dispatchers.IO) {
-//                checkServer()
-//            }
-            val authAvailableDeffered = scope.async(Dispatchers.IO) {
+            val serverAvailableDeffered = scope.async(Dispatchers.IO) {
+                checkServer()
+            }
+            val authCredentialsDeffered = scope.async(Dispatchers.IO) {
                 checkAuth()
             }
 
-//            val serverAvailable = serverAvailableDeffered.await()
-            val serverAvailable = true
-            val authAvailable = authAvailableDeffered.await()
+            val serverAvailable = serverAvailableDeffered.await()
+            val authCredentials = authCredentialsDeffered.await()
 
             when {
-                serverAvailable && authAvailable -> toApp()
+                serverAvailable && authCredentials != null -> toApp(authCredentials)
                 serverAvailable -> toLogin()
                 else -> {
                     // Noop: Сервер недоступен, но мы авторизованы. Просто ждём, пока юзер сервер будет доступен
@@ -70,11 +70,11 @@ class DefaultStartComponent @AssistedInject constructor(
         onLogin()
     }
 
-    private fun toApp() {
-        TODO("Not yet implemented")
+    private suspend fun toApp(token: String) = withContext(Dispatchers.Main) {
+        onApp(token)
     }
 
     private suspend fun checkServer(): Boolean = checkAvailableServer()
 
-    private suspend fun checkAuth(): Boolean = checkLogin()
+    private suspend fun checkAuth(): String? = checkLogin()
 }

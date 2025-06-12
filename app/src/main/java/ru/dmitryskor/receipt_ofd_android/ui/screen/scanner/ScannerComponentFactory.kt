@@ -6,7 +6,6 @@ import dagger.assisted.AssistedFactory
 @AssistedFactory
 interface ScannerComponentFactory {
     operator fun invoke(
-        componentContext: ComponentContext,
-        userToken: String
+        componentContext: ComponentContext
     ): DefaultScannerComponent
 }

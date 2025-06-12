@@ -8,5 +8,6 @@ interface StartComponentFactory {
     operator fun invoke(
         componentContext: ComponentContext,
         onLogin: () -> Unit,
+        onApp: (String) -> Unit,
     ): DefaultStartComponent
 }

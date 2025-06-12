@@ -34,6 +34,6 @@ private fun Content(
         modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-        Text(state.token)
+        Text(state.token ?: "Пусто")
     }
 }
