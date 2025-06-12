@@ -9,9 +9,12 @@ import com.arkivanov.decompose.value.Value
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.serialization.Serializable
-import ru.dmitryskor.api.LoginWithTokenComponent
-import ru.dmitryskor.api.ScannerComponent
-import ru.dmitryskor.api.StartComponent
+import ru.dmitryskor.receipt_ofd_android.ui.screen.login.LoginWithTokenComponent
+import ru.dmitryskor.receipt_ofd_android.ui.screen.login.LoginWithTokenComponentFactory
+import ru.dmitryskor.receipt_ofd_android.ui.screen.scanner.ScannerComponent
+import ru.dmitryskor.receipt_ofd_android.ui.screen.scanner.ScannerComponentFactory
+import ru.dmitryskor.receipt_ofd_android.ui.screen.start.StartComponent
+import ru.dmitryskor.receipt_ofd_android.ui.screen.start.StartComponentFactory
 
 class DefaultRootComponent @AssistedInject constructor(
     private val loginWithTokenFactory: LoginWithTokenComponentFactory,

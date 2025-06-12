@@ -3,7 +3,6 @@ package ru.dmitryskor.receipt_ofd_android.ui.screen.start
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.decompose.value.update
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -12,10 +11,9 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.dmitryskor.api.ServerNetworkClient
 
 class DefaultStartComponent @AssistedInject constructor(
-    private val serverNetworkClient: ServerNetworkClient,
+//    private val serverNetworkClient: ServerNetworkClient,
     @Assisted componentContext: ComponentContext,
     @Assisted private val onLogin: () -> Unit,
 ) : StartComponent, ComponentContext by componentContext {
@@ -61,10 +59,11 @@ class DefaultStartComponent @AssistedInject constructor(
     }
 
     private suspend fun checkServer(): Boolean {
-        return serverNetworkClient.pingPong().onFailure {
-            it
-            _state.update { StartState.ServerNotAvailable }
-        }.isSuccess
+//        return serverNetworkClient.pingPong().onFailure {
+//            it
+//            _state.update { StartState.ServerNotAvailable }
+//        }.isSuccess
+        TODO()
     }
 
     private suspend fun checkAuth(): Boolean {
