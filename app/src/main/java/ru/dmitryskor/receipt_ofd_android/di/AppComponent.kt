@@ -4,6 +4,7 @@ import dagger.Component
 import ru.dmitryskor.receipt_ofd_android.di.modules.AppModule
 import ru.dmitryskor.receipt_ofd_android.di.modules.ClientServerModule
 import ru.dmitryskor.receipt_ofd_android.di.modules.NetworkModule
+import ru.dmitryskor.receipt_ofd_android.di.modules.StoreModule
 import ru.dmitryskor.receipt_ofd_android.di.scope.AppScope
 import ru.dmitryskor.receipt_ofd_android.ui.navigation.RootComponentFactory
 
@@ -12,7 +13,8 @@ import ru.dmitryskor.receipt_ofd_android.ui.navigation.RootComponentFactory
     modules = [
         AppModule::class,
         NetworkModule::class,
-        ClientServerModule::class
+        ClientServerModule::class,
+        StoreModule::class
     ]
 )
 interface AppComponent {

@@ -14,10 +14,12 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.dmitryskor.receipt_ofd_android.domain.CheckAvailableServerUC
+import ru.dmitryskor.receipt_ofd_android.domain.CheckLoginUC
 import ru.dmitryskor.receipt_ofd_android.domain.models.exception.ServerNotAvailable
 
 class DefaultStartComponent @AssistedInject constructor(
     private val checkAvailableServer: CheckAvailableServerUC,
+    private val checkLogin: CheckLoginUC,
     @Assisted componentContext: ComponentContext,
     @Assisted private val onLogin: () -> Unit,
 ) : StartComponent, ComponentContext by componentContext {
@@ -43,14 +45,15 @@ class DefaultStartComponent @AssistedInject constructor(
 
     private fun initStartFlow() {
         scope.launch(Dispatchers.Default) {
-            val serverAvailableDeffered = scope.async(Dispatchers.IO) {
-                checkServer()
-            }
+//            val serverAvailableDeffered = scope.async(Dispatchers.IO) {
+//                checkServer()
+//            }
             val authAvailableDeffered = scope.async(Dispatchers.IO) {
                 checkAuth()
             }
 
-            val serverAvailable = serverAvailableDeffered.await()
+//            val serverAvailable = serverAvailableDeffered.await()
+            val serverAvailable = true
             val authAvailable = authAvailableDeffered.await()
 
             when {
@@ -73,7 +76,5 @@ class DefaultStartComponent @AssistedInject constructor(
 
     private suspend fun checkServer(): Boolean = checkAvailableServer()
 
-    private suspend fun checkAuth(): Boolean {
-        return true
-    }
+    private suspend fun checkAuth(): Boolean = checkLogin()
 }

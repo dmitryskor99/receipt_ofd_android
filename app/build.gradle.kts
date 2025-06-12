@@ -75,6 +75,9 @@ dependencies {
     // ML Kit for QR scanning
     implementation(libs.barcode.scanning)
 
+    // data store
+    implementation(libs.androidx.datastore.preferences)
+
 
     implementation(libs.kotlinx.serialization.core)
 
