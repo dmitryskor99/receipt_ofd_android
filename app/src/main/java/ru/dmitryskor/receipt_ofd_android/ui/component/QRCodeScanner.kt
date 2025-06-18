@@ -20,6 +20,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 @Composable
 fun QRCodeScanner(
     modifier: Modifier = Modifier,
+    stopAfterScan: Boolean = true,
     onQrScanned: (String) -> Unit
 ) {
     val context = LocalContext.current
@@ -47,6 +48,9 @@ fun QRCodeScanner(
                 it.setAnalyzer(
                     ContextCompat.getMainExecutor(context),
                     QRCodeAnalyzer { code ->
+                        if (stopAfterScan) {
+                            it.clearAnalyzer()
+                        }
                         onQrScanned(code)
                     })
             }

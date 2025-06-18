@@ -120,6 +120,7 @@ private fun Non(
 ) {
     QRCodeScanner(
         modifier = modifier.fillMaxSize(),
+        stopAfterScan = true,
         onQrScanned = onScanned
     )
 }
