@@ -31,8 +31,19 @@ class DefaultScannerComponent @AssistedInject constructor(
         sendScanCode(scan = scan)
     }
 
-    override fun onClickReload() {
+    override fun onClickRetryScan() {
+        _state.update {
+            it.copy(
+                scanResult = null,
+                scanRequestState = ScanRequestState.Non
+            )
+        }
+    }
 
+    override fun onClickReload() {
+        state.value.scanResult?.let {
+            sendScanCode(scan = it)
+        } ?: onClickRetryScan()
     }
 
     private fun sendScanCode(scan: String) {
@@ -43,8 +54,22 @@ class DefaultScannerComponent @AssistedInject constructor(
             )
         }
         scope.launch(Dispatchers.IO) {
-            val result = sendScan(scan = scan)
-
+            sendScan.invoke(scan = scan)
+                .onSuccess {
+                    _state.update {
+                        it.copy(
+                            scanResult = null,
+                            scanRequestState = ScanRequestState.Success
+                        )
+                    }
+                }
+                .onFailure { e ->
+                    _state.update {
+                        it.copy(
+                            scanRequestState = ScanRequestState.Error(error = e.message ?: "Неизвестная ошибка")
+                        )
+                    }
+                }
         }
     }
 }

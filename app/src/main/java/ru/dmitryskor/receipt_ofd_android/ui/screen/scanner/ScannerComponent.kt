@@ -6,5 +6,6 @@ interface ScannerComponent {
     val state: Value<ScannerState>
 
     fun onScanned(scan: String)
+    fun onClickRetryScan()
     fun onClickReload()
 }

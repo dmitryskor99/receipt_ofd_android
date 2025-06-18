@@ -37,6 +37,9 @@ fun ScannerContent(
             },
             onClickReload = {
                 component.onClickReload()
+            },
+            onClickRetryScan = {
+                component.onClickRetryScan()
             }
         )
     }
@@ -47,7 +50,8 @@ private fun Content(
     modifier: Modifier = Modifier,
     state: ScannerState,
     onScanned: (String) -> Unit,
-    onClickReload: () -> Unit
+    onClickReload: () -> Unit,
+    onClickRetryScan: () -> Unit
 ) {
     PermissionsScreen(
         permissions = listOf(Manifest.permission.CAMERA)
@@ -55,8 +59,14 @@ private fun Content(
         when (val requestState = state.scanRequestState) {
             is ScannerState.ScanRequestState.Non -> Non(modifier = modifier, onScanned = onScanned)
             is ScannerState.ScanRequestState.Loading -> Loading(modifier = modifier, scanResult = state.scanResult)
-            is ScannerState.ScanRequestState.Error -> Error(modifier = modifier, error = requestState.error, onClickReload = onClickReload)
-            is ScannerState.ScanRequestState.Success -> Success(modifier = modifier, onClickReload = onClickReload)
+            is ScannerState.ScanRequestState.Error -> Error(
+                modifier = modifier,
+                error = requestState.error,
+                onClickReload = onClickReload,
+                onClickRetryScan = onClickRetryScan
+            )
+
+            is ScannerState.ScanRequestState.Success -> Success(modifier = modifier, onClickRetryScan = onClickRetryScan)
         }
     }
 }
@@ -64,7 +74,7 @@ private fun Content(
 @Composable
 private fun Success(
     modifier: Modifier = Modifier,
-    onClickReload: () -> Unit
+    onClickRetryScan: () -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
@@ -73,8 +83,8 @@ private fun Success(
     ) {
         Text("Успех!")
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = onClickReload) {
-            Text("Еще раз")
+        Button(onClick = onClickRetryScan) {
+            Text("Сканировать заново")
         }
     }
 }
@@ -83,7 +93,8 @@ private fun Success(
 private fun Error(
     modifier: Modifier = Modifier,
     error: String,
-    onClickReload: () -> Unit
+    onClickReload: () -> Unit,
+    onClickRetryScan: () -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
@@ -93,7 +104,11 @@ private fun Error(
         Text("Ошибка: $error")
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = onClickReload) {
-            Text("Еще раз")
+            Text("Еще раз отправить")
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = onClickRetryScan) {
+            Text("Сканировать заново")
         }
     }
 }
