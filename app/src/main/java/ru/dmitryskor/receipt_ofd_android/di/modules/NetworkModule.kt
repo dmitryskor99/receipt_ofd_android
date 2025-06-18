@@ -8,18 +8,19 @@ import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import ru.dmitryskor.receipt_ofd_android.BuildConfig
 import ru.dmitryskor.receipt_ofd_android.di.qualifier.BaseUrl
-import ru.dmitryskor.receipt_ofd_android.di.qualifier.FullBaseUrl
+import ru.dmitryskor.receipt_ofd_android.di.qualifier.SecureBaseUrl
 import ru.dmitryskor.receipt_ofd_android.di.scope.AppScope
 
 @Module
 class NetworkModule {
 
     @AppScope
-    @FullBaseUrl
+    @SecureBaseUrl
     @Provides
     fun provideFullBaseUrl(@BaseUrl baseUrl: String): String {
-        return "$baseUrl/33c9d911-5f53-4e5a-8914-870615a4f10c"
+        return "$baseUrl/${BuildConfig.SECURE_KEY_API}"
     }
 
     @AppScope

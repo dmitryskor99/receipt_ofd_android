@@ -8,14 +8,18 @@ import ru.dmitryskor.receipt_ofd_android.data.network.NetworkClient
 import ru.dmitryskor.receipt_ofd_android.data.network.server.DefaultServerNetworkClient
 import ru.dmitryskor.receipt_ofd_android.data.network.server.ServerNetworkClient
 import ru.dmitryskor.receipt_ofd_android.di.qualifier.BaseUrl
+import ru.dmitryskor.receipt_ofd_android.di.qualifier.OpenApiClient
+import ru.dmitryskor.receipt_ofd_android.di.qualifier.SecureApiClient
+import ru.dmitryskor.receipt_ofd_android.di.qualifier.SecureBaseUrl
 import ru.dmitryskor.receipt_ofd_android.di.scope.AppScope
 
 @Module
 class ClientServerModule {
 
+    @OpenApiClient
     @AppScope
     @Provides
-    fun provideNetworkClient(
+    fun provideOpenNetworkClient(
         client: HttpClient,
         @BaseUrl baseUrl: String
     ): NetworkClient {
@@ -25,9 +29,22 @@ class ClientServerModule {
         )
     }
 
+    @SecureApiClient
     @AppScope
     @Provides
-    fun provideServerNetworkClient(client: NetworkClient): ServerNetworkClient {
+    fun provideSecureNetworkClient(
+        client: HttpClient,
+        @SecureBaseUrl baseUrl: String
+    ): NetworkClient {
+        return DefaultNetworkClient(
+            client = client,
+            baseUrl = baseUrl
+        )
+    }
+
+    @AppScope
+    @Provides
+    fun provideServerNetworkClient(@OpenApiClient client: NetworkClient): ServerNetworkClient {
         return DefaultServerNetworkClient(client = client)
     }
 }

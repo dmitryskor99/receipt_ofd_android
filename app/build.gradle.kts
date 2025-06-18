@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -18,6 +20,14 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val localProperties = Properties()
+        val localFile = rootProject.file("local.properties")
+        if (localFile.exists()) {
+            localFile.inputStream().use { localProperties.load(it) }
+            val secureKeyApi = localProperties.getProperty("secure_key_api")
+            buildConfigField("String", "SECURE_KEY_API", "$secureKeyApi")
+        }
     }
 
     buildTypes {
