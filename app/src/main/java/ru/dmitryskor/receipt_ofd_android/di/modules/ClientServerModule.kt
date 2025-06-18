@@ -4,9 +4,13 @@ import dagger.Module
 import dagger.Provides
 import io.ktor.client.HttpClient
 import ru.dmitryskor.receipt_ofd_android.data.network.DefaultNetworkClient
+import ru.dmitryskor.receipt_ofd_android.data.network.DefaultSecureNetworkClient
 import ru.dmitryskor.receipt_ofd_android.data.network.NetworkClient
+import ru.dmitryskor.receipt_ofd_android.data.network.scan.DefaultScanNetworkClient
+import ru.dmitryskor.receipt_ofd_android.data.network.scan.ScanNetworkClient
 import ru.dmitryskor.receipt_ofd_android.data.network.server.DefaultServerNetworkClient
 import ru.dmitryskor.receipt_ofd_android.data.network.server.ServerNetworkClient
+import ru.dmitryskor.receipt_ofd_android.data.store.dataStore.encription.PrimitivesDataStore
 import ru.dmitryskor.receipt_ofd_android.di.qualifier.BaseUrl
 import ru.dmitryskor.receipt_ofd_android.di.qualifier.OpenApiClient
 import ru.dmitryskor.receipt_ofd_android.di.qualifier.SecureApiClient
@@ -34,11 +38,13 @@ class ClientServerModule {
     @Provides
     fun provideSecureNetworkClient(
         client: HttpClient,
-        @SecureBaseUrl baseUrl: String
+        @SecureBaseUrl baseUrl: String,
+        primitivesDataStore: PrimitivesDataStore
     ): NetworkClient {
-        return DefaultNetworkClient(
+        return DefaultSecureNetworkClient(
             client = client,
-            baseUrl = baseUrl
+            baseUrl = baseUrl,
+            primitivesDataStore = primitivesDataStore
         )
     }
 
@@ -46,5 +52,11 @@ class ClientServerModule {
     @Provides
     fun provideServerNetworkClient(@OpenApiClient client: NetworkClient): ServerNetworkClient {
         return DefaultServerNetworkClient(client = client)
+    }
+
+    @AppScope
+    @Provides
+    fun provideDefaultScanNetworkClient(@SecureApiClient client: NetworkClient): ScanNetworkClient {
+        return DefaultScanNetworkClient(client = client)
     }
 }

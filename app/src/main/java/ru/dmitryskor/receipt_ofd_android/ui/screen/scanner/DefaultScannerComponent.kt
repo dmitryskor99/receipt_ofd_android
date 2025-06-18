@@ -10,21 +10,41 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import ru.dmitryskor.receipt_ofd_android.domain.GetTokenUC
+import ru.dmitryskor.receipt_ofd_android.domain.SendScanUC
+import ru.dmitryskor.receipt_ofd_android.ui.screen.scanner.ScannerState.ScanRequestState
 
 class DefaultScannerComponent @AssistedInject constructor(
-    private val getToken: GetTokenUC,
+    private val sendScan: SendScanUC,
     @Assisted componentContext: ComponentContext
 ) : ScannerComponent, ComponentContext by componentContext {
-    private val _state: MutableValue<ScannerState> = MutableValue(ScannerState(token = null))
+    private val _state: MutableValue<ScannerState> = MutableValue(
+        ScannerState(
+            scanResult = null,
+            scanRequestState = ScanRequestState.Non
+        )
+    )
     private val scope = coroutineScope(CoroutineName("DefaultScannerComponent"))
 
     override val state: Value<ScannerState> = _state
 
-    init {
+    override fun onScanned(scan: String) {
+        sendScanCode(scan = scan)
+    }
+
+    override fun onClickReload() {
+
+    }
+
+    private fun sendScanCode(scan: String) {
+        _state.update {
+            it.copy(
+                scanResult = scan,
+                scanRequestState = ScanRequestState.Loading
+            )
+        }
         scope.launch(Dispatchers.IO) {
-            val token = getToken()
-            _state.update { it.copy(token = token) }
+            val result = sendScan(scan = scan)
+
         }
     }
 }
